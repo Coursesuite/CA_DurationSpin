@@ -1,0 +1,25 @@
+{
+  "name": "ca_durationspin",
+  "version": "1.0.0",
+  "description": "Time (hh:mm:ss) spinner web component (vanilla js)",
+  "main": "./dist/ca_durationspin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Coursesuite/CA_DurationSpin.git"
+  },
+  "keywords": [
+    "webcomponent",
+    "vanillajs",
+    "htmlelement",
+    "spinner"
+  ],
+  "author": "frumbert <tim.stclair@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Coursesuite/CA_DurationSpin/issues"
+  },
+  "homepage": "https://github.com/Coursesuite/CA_DurationSpin#readme"
+}
