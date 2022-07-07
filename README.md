@@ -4,7 +4,7 @@ Number spinner web component with hh:mm:ss format with holdable button increment
 
 ![example](screenshot.gif)
 
-Displays mm:ss when no there are zero hours.
+Displays mm:ss when there are zero hours.
 
 Value returns seconds (>=0).
 
