@@ -1,6 +1,6 @@
 # CA_DurationSpin
 
-Number spinner web component with hh:mm:ss format with holdable button increment/decrement controls.
+Number spinner web component with hh:mm:ss format with holdable button increment/decrement controls. You can also change the value using the mouse wheel.
 
 ![example](screenshot.gif)
 
@@ -17,6 +17,7 @@ Value returns seconds (>=0).
     value="3596"
     step="1"
     name="foo"
+    id="duration"
   >
   </ca-duration-spin>
 
@@ -70,3 +71,14 @@ The label for the minus button (default: -).
 #### plus (optional)
 
 The label for the plus buton (default: +).
+
+### Events
+
+Emits a Change event and sets the value property of the element.
+
+```js
+  duration = document.getElementById('duration');
+  duration.addEventListener('change', (e) => {
+      some_variable = e.target.value;
+  });
+```
