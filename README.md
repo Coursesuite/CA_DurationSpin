@@ -72,6 +72,27 @@ The label for the minus button (default: -).
 
 The label for the plus buton (default: +).
 
+### Scripting
+
+Set the 'value' *attribute* of the element to update its value from script.
+
+#### Setting the value
+```js
+   // works
+   node.setAttribute("value",some_value);
+   
+   // does not work
+   node.value = some_value
+```
+
+#### Getting the value
+```js
+   // all ways work
+   some_value = node.value;
+   some_value = node.getAttribute(value);
+   some_value = node.attributes.value;
+```   
+
 ### Events
 
 Emits a Change event and sets the value property of the element.
