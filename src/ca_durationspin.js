@@ -1,4 +1,3 @@
-
 class CA_DurationSpin extends HTMLElement {
 
     static get is() {
@@ -9,6 +8,14 @@ class CA_DurationSpin extends HTMLElement {
         return ["value"];
     }
 
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name.toLowerCase()==="value") {
+            this.number = ~~newValue;
+            this.display();
+        }
+    }
+
+    // seconds to hh:mm:ss or mm:ss
     hms(value) {
         var seconds = value % 60;
         var minutes = Math.floor(value / 60) % 60;
@@ -17,6 +24,11 @@ class CA_DurationSpin extends HTMLElement {
         return (hours + ':' + minutes + ':' + seconds)
             .replace(/\d+/g, (m) => "0".substr(m.length -1) + m ) // pad zeros
             .replace(/^00:/, '') // remove leading zeros when empty;
+    }
+
+    emit(name) {
+        this.dispatchEvent(new Event(name, { bubbles: true }))
+        // this.dispatchEvent(new CustomEvent('changed', {detail: this.number}));
     }
 
     // take the internal value and render the time representation
@@ -54,7 +66,15 @@ class CA_DurationSpin extends HTMLElement {
 
     // update the value attribute of the element when the displayed value changes
     onChange() {
-        this.setAttribute('value', this.number);
+        this.setAttribute('value', this.number); // the attribute on the element - triggers observer
+        this.value = this.number; // the property called 'value' on the event target - does not trigger observer
+        this.emit('change');
+    }
+
+    // mouse wheel event can trigger much faster than holding the button
+    onWheel(e) {
+        e.preventDefault();
+        e.deltaY > 0 ? this.onPlus() : this.onMinus();
     }
 
     // the string containing the html for this element
@@ -93,7 +113,6 @@ class CA_DurationSpin extends HTMLElement {
         this.step = Math.max(1, ~~this.attrib('step')); // 1 or more
         this.max = Math.min(86400, Math.max(this.min + this.step, ~~this.attrib('max'))); // max is 24 hours, max must exceed min by at least step
 
-
         // bind events
         this.minus.addEventListener("click", this.clearHold.bind(this));
         this.minus.addEventListener("mousedown", this.holdMinus.bind(this));
@@ -101,7 +120,7 @@ class CA_DurationSpin extends HTMLElement {
         this.plus.addEventListener("click", this.clearHold.bind(this));
         this.plus.addEventListener("mousedown", this.holdPlus.bind(this));
         this.plus.addEventListener("mouseup", this.clearHold.bind(this));
-        this.input.addEventListener("change", this.onChange.bind(this));
+        this.input.addEventListener("wheel", this.onWheel.bind(this));
 
         // ensure as you move the mouse out after button is held the interval is cleared
         this.shadow.addEventListener("mouseout", this.clearHold.bind(this));
@@ -118,13 +137,14 @@ class CA_DurationSpin extends HTMLElement {
         this.plus.removeEventListener("click", this.clearHold.bind(this));
         this.plus.removeEventListener("mousedown", this.holdPlus.bind);
         this.plus.removeEventListener("mouseup", this.clearHold.bind);
-        this.input.removeEventListener("change", this.onChange.bind);
+        this.input.removeEventListener("wheel", this.onWheel.bind);
         this.shadow.removeEventListener("mouseout",this.clearHold.bind(this));
     }
 
     constructor() {
         super();
-        this.shadow = this.attachShadow({mode: 'open'});
+        this.shadow = this.attachShadow({mode: 'open'}); // closed ok too 
+        this.value = 0;
         this.repeat_rate = 175;
 
         // values to track

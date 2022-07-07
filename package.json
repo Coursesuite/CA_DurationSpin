@@ -1,6 +1,6 @@
 {
   "name": "ca_durationspin",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Time (hh:mm:ss) spinner web component (vanilla js)",
   "main": "./dist/ca_durationspin.js",
   "scripts": {
